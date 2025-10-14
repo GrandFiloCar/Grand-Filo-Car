@@ -1,0 +1,821 @@
+<!--
+Grand Filo Car - Single-file HTML + CSS (Notepad-ready)
+Instructions:
+1) Save this file as `index.html` in a folder `rentacar`.
+2) Create a subfolder `images/` and place your 50 vehicle images there. Filenames should match the slugs below (lowercase, hyphen-separated), e.g. "fiat-egea.jpg".
+3) Open `index.html` in your browser to preview. It's fully responsive: desktop 4-cols, tablet 2-cols, mobile 2-cols.
+4) Phone (call/WhatsApp): +90 551 345 04 36 (used in tel: and wa.me links)
+5) Email: info@GrandFiloCar.com
+
+Note: All vehicle data (yakıt, vites, tüketim, fiyat) are reasonable sample values I filled in. You can edit any text directly in Notepad.
+-->
+
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Grand® Filo Car - Araç Filosu</title>
+  <meta name="description" content="Grand Filo Car - 81 ilde vale teslimatlı araç kiralama. Ekonomik, SUV, Lüks, Ticari ve VIP araçlar.">
+  <style>
+    :root{
+      --red: #E60000;
+      --white:#ffffff;
+      --dark:#222;
+      --muted:#666;
+      --accent:#007BFF; /* sınırsız km mavi */
+      --whatsapp:#25D366;
+      --cta-yellow:#FFC107;
+      --card-radius:10px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:#fff;color:var(--dark);line-height:1.4}
+    a{color:inherit;text-decoration:none}
+
+    /* Header */
+    header{position:sticky;top:0;background:var(--white);z-index:90;border-bottom:1px solid #eee}
+    .container{max-width:1140px;margin:0 auto;padding:0 16px}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .logo{font-weight:800;color:var(--red);letter-spacing:1px;font-size:20px}
+    nav ul{display:flex;gap:18px;align-items:center;margin:0;padding:0;list-style:none}
+    nav a{color:var(--dark);padding:6px 8px}
+    nav a:hover{color:var(--red);border-bottom:2px solid var(--red)}
+
+    /* Hero */
+    .hero{display:flex;align-items:center;justify-content:center;background-image:linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),url('images/hero.jpg');background-size:cover;background-position:center;padding:56px 16px;color:#fff;text-align:center}
+    .hero h1{font-size:28px;margin:0 0 8px}
+    .hero p{margin:0 0 20px;font-weight:500}
+    .hero .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .icon-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;background:var(--white);color:var(--dark);font-weight:600}
+    .icon-btn.small{padding:8px 12px}
+    .icon-swatch{width:36px;height:36px;border-radius:50%;display:inline-grid;place-items:center;font-size:16px}
+    .sw-yellow{background:var(--cta-yellow)}
+    .sw-green{background:var(--whatsapp)}
+    .sw-red{background:var(--red);color:#fff}
+
+    /* Category cards */
+    .categories{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0}
+    .cat{background:#fff;border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,0.06);text-align:center}
+    .cat h3{margin:10px 0 6px;color:var(--red)}
+    .cat p{margin:0;color:var(--muted);font-size:14px}
+    .cat button{margin-top:10px;background:var(--red);color:#fff;border:none;padding:10px 12px;border-radius:8px;cursor:pointer}
+
+    /* Info boxes */
+    .why{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+    .why .box{background:#fff;padding:14px;border-radius:10px;border:1px solid #f0f0f0;text-align:center}
+    .why .box h4{color:var(--red);margin:8px 0}
+    .why .box p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Campaign strip */
+    .campaigns{margin:20px 0;padding:10px 0;background:var(--red);color:#fff}
+    .campaign-inner{display:flex;gap:12px;overflow:hidden;align-items:center}
+    .camp{min-width:260px;padding:10px 18px;background:rgba(255,255,255,0.06);border-radius:8px}
+
+    /* Grid of cars */
+    .cars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}
+    .card{background:#fff;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.06);overflow:hidden;position:relative}
+    .card .img{width:100%;height:150px;background:#ddd;background-size:cover;background-position:center}
+    .badge{position:absolute;right:12px;top:12px;background:var(--accent);color:#fff;padding:6px 8px;border-radius:8px;font-weight:700;font-size:12px}
+    .card-body{padding:12px}
+    .card h4{margin:0 0 6px;font-size:16px}
+    .meta{display:flex;gap:8px;font-size:13px;color:var(--muted);margin-bottom:8px}
+    .price{font-weight:800;color:var(--red);margin-bottom:8px}
+    .card-actions{display:flex;gap:10px}
+    .contact-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:8px;border:none;cursor:pointer}
+    .whatsapp{background:var(--whatsapp);color:#fff}
+    .call{background:var(--red);color:#fff}
+
+    /* Footer */
+    footer{background:var(--red);color:#fff;padding:20px 0;margin-top:28px}
+    footer .finner{display:flex;justify-content:space-between;align-items:center}
+    footer p{margin:0}
+
+    /* Modal detail */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:200}
+    .modal .panel{width:100%;max-width:820px;background:#fff;border-radius:12px;overflow:auto;max-height:90vh}
+    .modal .panel .top{display:flex;gap:12px;padding:12px}
+    .modal .panel .top .left{flex:1}
+    .modal .panel .top .left .large{width:100%;height:320px;background:#ddd;background-size:cover;background-position:center}
+    .modal .panel .top .right{width:320px;padding:8px}
+    .modal .panel .top h3{margin:0 0 6px}
+    .modal .panel .top .meta{color:var(--muted);font-size:14px}
+    .close-x{position:absolute;right:14px;top:10px;background:var(--red);color:#fff;border-radius:6px;padding:6px 10px;border:none}
+
+    /* Responsive */
+    @media(max-width:1024px){.cars-grid{grid-template-columns:repeat(2,1fr)}.why{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(3,1fr)} }
+    @media(max-width:680px){.hero h1{font-size:20px}.cars-grid{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(1,1fr)}nav ul{display:none} .nav{padding:10px 0}.container{padding:0 12px}}
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .center{text-align:center}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo">Grand® Filo Car </div>
+    <nav>
+      <ul>
+        <li><a href="#">Ana Sayfa</a></li>
+        <li><a href="#cars">Araç Filosu</a></li>
+        <li><a href="#about">Hakkımızda</a></li>
+        <li><a href="#campaigns">Kampanyalar</a></li>
+        <li><a href="#contact">İletişim</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>81 İlde Vale Teslimatlı Kiralama Ağı</h1>
+    <p>2015'ten bu yana Grand® Filo Car ile yolunuz hep açık. Kasko ve bakım güvencesiyle.</p>
+    <div class="actions">
+      <a class="icon-btn" href="#cars"><span class="icon-swatch sw-yellow">🚗</span> Araçlara Göz At</a>
+      <a class="icon-btn" href="https://wa.me/905513450436" target="_blank"><span class="icon-swatch sw-green">🟢</span> WhatsApp</a>
+      <a class="icon-btn" href="tel:+905513450436"><span class="icon-swatch sw-red">🔴</span> Ara</a>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Categories -->
+  <section class="categories">
+    <div class="cat"><img src="images/corp.jpg" alt="kurumsal" style="width:100%;height:120px;object-fit:cover;border-radius:8px"><h3>Şirket / Kurumsal</h3><p>Toplu kiralamalar ve kurumsal çözümler için ideal araçlar.</p><button onclick="location.href='#cars'">Araçlara Göz At</button></div>
+    <div class="cat"><img src="images/economy.jpg" alt="ekonomik" style="width:100%;height:120px;object-fit:cover;border-radius:8px"><h3>Bütçe Dostu</h3><p>Şehir içi kullanım için düşük yakıt tüketimli araçlar.</p><button onclick="location.href='#cars'">Araçlara Göz At</button></div>
+    <div class="cat"><img src="images/suv.jpg" alt="suv" style="width:100%;height:120px;object-fit:cover;border-radius:8px"><h3>SUV / Arazi</h3><p>Zorlu yollar ve arazi koşulları için güçlü araçlar.</p><button onclick="location.href='#cars'">Araçlara Göz At</button></div>
+  </section>
+
+  <!-- Why -->
+  <section class="why">
+    <div class="box"><div style="font-size:28px">🔧</div><h4>Teslimat Öncesi Bakım</h4><p>Tüm araçlarımız teslimat öncesi detaylı teknik ve temizlik kontrolünden geçirilir.</p></div>
+    <div class="box"><div style="font-size:28px">🛡️</div><h4>Kasko & Sigorta</h4><p>Araçlarımız tam kapsamlı kasko ve zorunlu trafik sigortası ile korunur.</p></div>
+    <div class="box"><div style="font-size:28px">🕐</div><h4>7/24 Destek & Vale</h4><p>Mobil ofis ve vale teslimatı ile 81 ilde hizmetinizdeyiz. 7/24 çağrı desteği.</p></div>
+    <div class="box"><div style="font-size:28px">🚘</div><h4>2015'ten Bu Yana</h4><p>10 yılı aşkın sektör tecrübesiyle güvenli ve şeffaf hizmet.</p></div>
+  </section>
+
+  <!-- Campaigns strip -->
+  <section id="campaigns" class="campaigns">
+    <div class="container campaign-inner">
+      <div class="camp">%30'a varan uzun dönem indirimleri</div>
+      <div class="camp">10.000₺ ve üzeri kiralamalarda 1.000₺ indirim</div>
+      <div class="camp">Erken rezervasyonda ekstra gün hediyesi</div>
+    </div>
+  </section>
+
+  <!-- Cars grid -->
+  <section id="cars">
+    <h2 style="margin:18px 0 8px">Araç Filomuz</h2>
+    <p class="muted">Aşağıdan kategoriye göre veya tüm araçları görüntüleyebilirsiniz. İlgili araçta WhatsApp ve arama ikonuyla hemen iletişime geçin.</p>
+
+    <div class="cars-grid">
+      <!-- Economical (10) -->
+      <article class="card" data-name="Fiat Egea" data-img="images/fiat-egea.jpg" data-fuel="Benzin" data-gear="Manuel" data-cons="6.0 L/100km" data-price="950 TL / Gün">
+        <div class="img" style="background-image:url('images/fiat-egea.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Fiat Egea</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Manuel</div><div>•</div><div>6.0L/100km</div></div>
+          <div class="price">950 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Renault Clio" data-img="images/renault-clio.jpg" data-fuel="Benzin" data-gear="Manuel" data-cons="5.8 L/100km" data-price="900 TL / Gün">
+        <div class="img" style="background-image:url('images/renault-clio.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Renault Clio</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Manuel</div><div>•</div><div>5.8L/100km</div></div>
+          <div class="price">900 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Hyundai i20" data-img="images/hyundai-i20.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="6.2 L/100km" data-price="980 TL / Gün">
+        <div class="img" style="background-image:url('images/hyundai-i20.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Hyundai i20</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>6.2L/100km</div></div>
+          <div class="price">980 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Peugeot 208" data-img="images/peugeot-208.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="6.0 L/100km" data-price="1.000 TL / Gün">
+        <div class="img" style="background-image:url('images/peugeot-208.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Peugeot 208</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>6.0L/100km</div></div>
+          <div class="price">1.000 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Opel Corsa" data-img="images/opel-corsa.jpg" data-fuel="Benzin" data-gear="Manuel" data-cons="5.9 L/100km" data-price="920 TL / Gün">
+        <div class="img" style="background-image:url('images/opel-corsa.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Opel Corsa</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Manuel</div><div>•</div><div>5.9L/100km</div></div>
+          <div class="price">920 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Citroen C3" data-img="images/citroen-c3.jpg" data-fuel="Benzin" data-gear="Manuel" data-cons="6.1 L/100km" data-price="900 TL / Gün">
+        <div class="img" style="background-image:url('images/citroen-c3.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Citroen C3</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Manuel</div><div>•</div><div>6.1L/100km</div></div>
+          <div class="price">900 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Toyota Yaris" data-img="images/toyota-yaris.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="5.7 L/100km" data-price="1.050 TL / Gün">
+        <div class="img" style="background-image:url('images/toyota-yaris.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Toyota Yaris</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>5.7L/100km</div></div>
+          <div class="price">1.050 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Ford Fiesta" data-img="images/ford-fiesta.jpg" data-fuel="Benzin" data-gear="Manuel" data-cons="6.0 L/100km" data-price="920 TL / Gün">
+        <div class="img" style="background-image:url('images/ford-fiesta.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Ford Fiesta</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Manuel</div><div>•</div><div>6.0L/100km</div></div>
+          <div class="price">920 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Kia Rio" data-img="images/kia-rio.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="6.3 L/100km" data-price="980 TL / Gün">
+        <div class="img" style="background-image:url('images/kia-rio.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Kia Rio</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>6.3L/100km</div></div>
+          <div class="price">980 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Seat Ibiza" data-img="images/seat-ibiza.jpg" data-fuel="Benzin" data-gear="Manuel" data-cons="6.1 L/100km" data-price="940 TL / Gün">
+        <div class="img" style="background-image:url('images/seat-ibiza.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Seat Ibiza</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Manuel</div><div>•</div><div>6.1L/100km</div></div>
+          <div class="price">940 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <!-- SUVs (10) -->
+      <article class="card" data-name="Peugeot 3008" data-img="images/peugeot-3008.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="7.2 L/100km" data-price="2.200 TL / Gün">
+        <div class="img" style="background-image:url('images/peugeot-3008.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Peugeot 3008</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>7.2L/100km</div></div>
+          <div class="price">2.200 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Nissan Qashqai" data-img="images/nissan-qashqai.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="7.5 L/100km" data-price="2.000 TL / Gün">
+        <div class="img" style="background-image:url('images/nissan-qashqai.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Nissan Qashqai</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>7.5L/100km</div></div>
+          <div class="price">2.000 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Renault Captur" data-img="images/renault-captur.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="7.0 L/100km" data-price="1.900 TL / Gün">
+        <div class="img" style="background-image:url('images/renault-captur.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Renault Captur</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>7.0L/100km</div></div>
+          <div class="price">1.900 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Hyundai Tucson" data-img="images/hyundai-tucson.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="7.8 L/100km" data-price="2.200 TL / Gün">
+        <div class="img" style="background-image:url('images/hyundai-tucson.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Hyundai Tucson</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>7.8L/100km</div></div>
+          <div class="price">2.200 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Kia Sportage" data-img="images/kia-sportage.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="7.6 L/100km" data-price="2.100 TL / Gün">
+        <div class="img" style="background-image:url('images/kia-sportage.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Kia Sportage</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>7.6L/100km</div></div>
+          <div class="price">2.100 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Dacia Duster" data-img="images/dacia-duster.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="7.9 L/100km" data-price="1.700 TL / Gün">
+        <div class="img" style="background-image:url('images/dacia-duster.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Dacia Duster</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>7.9L/100km</div></div>
+          <div class="price">1.700 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Volkswagen Tiguan" data-img="images/volkswagen-tiguan.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="8.0 L/100km" data-price="2.500 TL / Gün">
+        <div class="img" style="background-image:url('images/volkswagen-tiguan.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Volkswagen Tiguan</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>8.0L/100km</div></div>
+          <div class="price">2.500 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Toyota RAV4" data-img="images/toyota-rav4.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="8.2 L/100km" data-price="2.300 TL / Gün">
+        <div class="img" style="background-image:url('images/toyota-rav4.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Toyota RAV4</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>8.2L/100km</div></div>
+          <div class="price">2.300 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="BMW X1" data-img="images/bmw-x1.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="8.5 L/100km" data-price="3.200 TL / Gün">
+        <div class="img" style="background-image:url('images/bmw-x1.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>BMW X1</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>8.5L/100km</div></div>
+          <div class="price">3.200 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Mercedes GLA" data-img="images/mercedes-gla.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="9.0 L/100km" data-price="3.500 TL / Gün">
+        <div class="img" style="background-image:url('images/mercedes-gla.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Mercedes GLA</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>9.0L/100km</div></div>
+          <div class="price">3.500 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <!-- Luxury (10) -->
+      <article class="card" data-name="BMW 320i" data-img="images/bmw-320i.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="8.6 L/100km" data-price="3.800 TL / Gün">
+        <div class="img" style="background-image:url('images/bmw-320i.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>BMW 320i</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>8.6L/100km</div></div>
+          <div class="price">3.800 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Mercedes C200" data-img="images/mercedes-c200.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="8.9 L/100km" data-price="4.200 TL / Gün">
+        <div class="img" style="background-image:url('images/mercedes-c200.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Mercedes C200</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>8.9L/100km</div></div>
+          <div class="price">4.200 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Audi A4" data-img="images/audi-a4.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="9.2 L/100km" data-price="4.000 TL / Gün">
+        <div class="img" style="background-image:url('images/audi-a4.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Audi A4</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>9.2L/100km</div></div>
+          <div class="price">4.000 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Volvo S60" data-img="images/volvo-s60.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="9.5 L/100km" data-price="4.100 TL / Gün">
+        <div class="img" style="background-image:url('images/volvo-s60.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Volvo S60</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>9.5L/100km</div></div>
+          <div class="price">4.100 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Volkswagen Passat" data-img="images/volkswagen-passat.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="7.5 L/100km" data-price="3.600 TL / Gün">
+        <div class="img" style="background-image:url('images/volkswagen-passat.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Volkswagen Passat</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>7.5L/100km</div></div>
+          <div class="price">3.600 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Skoda Superb" data-img="images/skoda-superb.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="8.7 L/100km" data-price="3.900 TL / Gün">
+        <div class="img" style="background-image:url('images/skoda-superb.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Skoda Superb</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>8.7L/100km</div></div>
+          <div class="price">3.900 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Mercedes E200" data-img="images/mercedes-e200.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="9.3 L/100km" data-price="4.500 TL / Gün">
+        <div class="img" style="background-image:url('images/mercedes-e200.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Mercedes E200</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>9.3L/100km</div></div>
+          <div class="price">4.500 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="BMW 520i" data-img="images/bmw-520i.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="9.8 L/100km" data-price="5.200 TL / Gün">
+        <div class="img" style="background-image:url('images/bmw-520i.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>BMW 520i</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>9.8L/100km</div></div>
+          <div class="price">5.200 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Audi A6" data-img="images/audi-a6.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="10.2 L/100km" data-price="5.500 TL / Gün">
+        <div class="img" style="background-image:url('images/audi-a6.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Audi A6</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>10.2L/100km</div></div>
+          <div class="price">5.500 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Jaguar XF" data-img="images/jaguar-xf.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="10.5 L/100km" data-price="6.000 TL / Gün">
+        <div class="img" style="background-image:url('images/jaguar-xf.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Jaguar XF</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>10.5L/100km</div></div>
+          <div class="price">6.000 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <!-- Commercial (10) -->
+      <article class="card" data-name="Fiat Doblo" data-img="images/fiat-doblo.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="7.5 L/100km" data-price="1.600 TL / Gün">
+        <div class="img" style="background-image:url('images/fiat-doblo.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Fiat Doblo</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>7.5L/100km</div></div>
+          <div class="price">1.600 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Ford Tourneo Courier" data-img="images/ford-tourneo-courier.jpg" data-fuel="Benzin" data-gear="Manuel" data-cons="7.8 L/100km" data-price="1.700 TL / Gün">
+        <div class="img" style="background-image:url('images/ford-tourneo-courier.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Ford Tourneo Courier</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Manuel</div><div>•</div><div>7.8L/100km</div></div>
+          <div class="price">1.700 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Peugeot Rifter" data-img="images/peugeot-rifter.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="7.9 L/100km" data-price="1.900 TL / Gün">
+        <div class="img" style="background-image:url('images/peugeot-rifter.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Peugeot Rifter</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>7.9L/100km</div></div>
+          <div class="price">1.900 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Renault Kangoo" data-img="images/renault-kangoo.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="7.4 L/100km" data-price="1.600 TL / Gün">
+        <div class="img" style="background-image:url('images/renault-kangoo.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Renault Kangoo</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>7.4L/100km</div></div>
+          <div class="price">1.600 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Citroen Berlingo" data-img="images/citroen-berlingo.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="7.6 L/100km" data-price="1.650 TL / Gün">
+        <div class="img" style="background-image:url('images/citroen-berlingo.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Citroen Berlingo</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>7.6L/100km</div></div>
+          <div class="price">1.650 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Volkswagen Caddy" data-img="images/volkswagen-caddy.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="7.8 L/100km" data-price="1.800 TL / Gün">
+        <div class="img" style="background-image:url('images/volkswagen-caddy.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Volkswagen Caddy</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>7.8L/100km</div></div>
+          <div class="price">1.800 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Ford Transit Custom" data-img="images/ford-transit-custom.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="8.5 L/100km" data-price="2.900 TL / Gün">
+        <div class="img" style="background-image:url('images/ford-transit-custom.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Ford Transit Custom</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>8.5L/100km</div></div>
+          <div class="price">2.900 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Mercedes Vito" data-img="images/mercedes-vito.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="9.0 L/100km" data-price="3.200 TL / Gün">
+        <div class="img" style="background-image:url('images/mercedes-vito.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Mercedes Vito</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>9.0L/100km</div></div>
+          <div class="price">3.200 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Renault Trafic" data-img="images/renault-trafic.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="8.6 L/100km" data-price="2.800 TL / Gün">
+        <div class="img" style="background-image:url('images/renault-trafic.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Renault Trafic</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>8.6L/100km</div></div>
+          <div class="price">2.800 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Toyota Proace" data-img="images/toyota-proace.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="8.8 L/100km" data-price="2.900 TL / Gün">
+        <div class="img" style="background-image:url('images/toyota-proace.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Toyota Proace</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>8.8L/100km</div></div>
+          <div class="price">2.900 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <!-- VIP & Minivan (10) -->
+      <article class="card" data-name="Mercedes V-Class" data-img="images/mercedes-vclass.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="10.5 L/100km" data-price="6.500 TL / Gün">
+        <div class="img" style="background-image:url('images/mercedes-vclass.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Mercedes V-Class</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>10.5L/100km</div></div>
+          <div class="price">6.500 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Volkswagen Caravelle" data-img="images/volkswagen-caravelle.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="11.0 L/100km" data-price="6.200 TL / Gün">
+        <div class="img" style="background-image:url('images/volkswagen-caravelle.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Volkswagen Caravelle</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>11.0L/100km</div></div>
+          <div class="price">6.200 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Ford Tourneo Custom" data-img="images/ford-tourneo-custom.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="10.8 L/100km" data-price="5.800 TL / Gün">
+        <div class="img" style="background-image:url('images/ford-tourneo-custom.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Ford Tourneo Custom</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>10.8L/100km</div></div>
+          <div class="price">5.800 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Hyundai Staria" data-img="images/hyundai-staria.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="11.2 L/100km" data-price="6.000 TL / Gün">
+        <div class="img" style="background-image:url('images/hyundai-staria.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Hyundai Staria</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>11.2L/100km</div></div>
+          <div class="price">6.000 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Toyota Alphard" data-img="images/toyota-alphard.jpg" data-fuel="Benzin" data-gear="Otomatik" data-cons="11.5 L/100km" data-price="8.500 TL / Gün">
+        <div class="img" style="background-image:url('images/toyota-alphard.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Toyota Alphard</h4>
+          <div class="meta"><div>Benzin</div><div>•</div><div>Otomatik</div><div>•</div><div>11.5L/100km</div></div>
+          <div class="price">8.500 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Mercedes Sprinter" data-img="images/mercedes-sprinter.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="12.0 L/100km" data-price="9.000 TL / Gün">
+        <div class="img" style="background-image:url('images/mercedes-sprinter.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Mercedes Sprinter</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>12.0L/100km</div></div>
+          <div class="price">9.000 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Peugeot Traveller" data-img="images/peugeot-traveller.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="11.0 L/100km" data-price="5.800 TL / Gün">
+        <div class="img" style="background-image:url('images/peugeot-traveller.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Peugeot Traveller</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>11.0L/100km</div></div>
+          <div class="price">5.800 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Renault Master" data-img="images/renault-master.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="12.5 L/100km" data-price="7.500 TL / Gün">
+        <div class="img" style="background-image:url('images/renault-master.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Renault Master</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>12.5L/100km</div></div>
+          <div class="price">7.500 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Citroen Spacetourer" data-img="images/citroen-spacetourer.jpg" data-fuel="Dizel" data-gear="Otomatik" data-cons="11.5 L/100km" data-price="6.200 TL / Gün">
+        <div class="img" style="background-image:url('images/citroen-spacetourer.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Citroen Spacetourer</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Otomatik</div><div>•</div><div>11.5L/100km</div></div>
+          <div class="price">6.200 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+      <article class="card" data-name="Fiat Scudo" data-img="images/fiat-scudo.jpg" data-fuel="Dizel" data-gear="Manuel" data-cons="11.8 L/100km" data-price="6.000 TL / Gün">
+        <div class="img" style="background-image:url('images/fiat-scudo.jpg')"></div>
+        <div class="badge">Sınırsız KM</div>
+        <div class="card-body">
+          <h4>Fiat Scudo</h4>
+          <div class="meta"><div>Dizel</div><div>•</div><div>Manuel</div><div>•</div><div>11.8L/100km</div></div>
+          <div class="price">6.000 TL / Gün</div>
+          <div class="card-actions"><a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a><a class="contact-btn call" href="tel:+905513450436">Ara</a></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- SEO / About -->
+  <section id="about" style="margin:28px 0;padding:18px;background:#fff;border-radius:10px">
+    <h3>Grand® Filo Car Hakkında</h3>
+    <p class="muted">Grand® Filo Car, 2015 yılından bu yana Türkiye genelinde hizmet veren profesyonel araç kiralama ağıdır. Vale teslimatlı mobil ofis sistemiyle 81 ilde müşterilerine güvenli, kaskolu ve bakımlı araçlar sunar. Ekonomik, SUV, lüks, ticari ve VIP kategorilerinde kısa ve uzun dönem kiralama çözümleri sağlar. 7/24 destek hattımız ile her zaman yanınızdayız.</p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" style="margin:12px 0 60px;">
+    <h3>İletişim</h3>
+    <p class="muted">Her türlü soru ve rezervasyon için WhatsApp veya telefon ile ulaşabilirsiniz.</p>
+    <p><strong>Telefon:</strong> <a href="tel:+905513450436">0551 345 04 36</a></p>
+    <p><strong>WhatsApp:</strong> <a href="https://wa.me/905513450436" target="_blank">WhatsApp ile iletişime geç</a></p>
+    <p><strong>E-posta:</strong> <a href="mailto:info@GrandFiloCar.com">info@GrandFiloCar.com</a></p>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container finner">
+    <p>81 İlde Vale Teslimat Noktalarıyla Hizmetinizdeyiz</p>
+    <p>📞 <a href="tel:+905513450436" style="color:#fff">0551 345 04 36</a> &nbsp; | &nbsp; <a href="mailto:info@GrandFiloCar.com" style="color:#fff">info@GrandFiloCar.com</a></p
+    <p>© 2015–2025 Grand® Filo Car | Tüm Hakları Saklıdır</p>
+  </div>
+</footer>
+
+<!-- Modal (detail) -->
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="panel">
+    <button class="close-x" onclick="closeModal()">Kapat</button>
+    <div class="top">
+      <div class="left"><div id="modal-img" class="large" style="background-image:url('images/fiat-egea.jpg')"></div></div>
+      <div class="right">
+        <h3 id="modal-title">Araç Başlığı</h3>
+        <div class="meta" id="modal-meta">Yakıt • Vites • Tüketim</div>
+        <p id="modal-desc" style="margin-top:8px;color:var(--muted)">Araç açıklaması burada yer alır. Konfor, bagaj kapasitesi, yol performansı vb. kısa bir paragraflık metin.</p>
+        <ul id="modal-specs" style="color:var(--muted);margin:10px 0 14px;"> 
+          <li>Klima: Otomatik çift bölge</li>
+          <li>Bagaj: 500 L</li>
+          <li>Kapasite: 5 kişi</li>
+          <li>Müzik: Bluetooth / AUX</li>
+        </ul>
+        <div style="font-weight:800;color:var(--red);font-size:18px" id="modal-price">1.250 TL / Gün</div>
+        <div style="margin-top:12px;display:flex;gap:10px">
+          <a class="contact-btn whatsapp" href="https://wa.me/905513450436" target="_blank">WhatsApp</a>
+          <a class="contact-btn call" href="tel:+905513450436">Ara</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Popup campaign (simple localStorage to show once)
+  if(!localStorage.getItem('Grand® Filo Car_campaign_seen')){
+    setTimeout(()=>{
+      if(confirm('Uzun dönem kiralamalarda %30\'a varan indirim mevcut! Hemen WhatsApp ile iletişime geçmek ister misiniz?')){
+        window.open('https://wa.me/905513450436','_blank')
+      }
+      localStorage.setItem('Grand® Filo Car_campaign_seen','1')
+    },900)
+  }
+
+  // Card click => open modal with data
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click',function(e){
+      // avoid clicks on contact buttons
+      if(e.target.closest('a')) return;
+      const title=this.getAttribute('data-name')
+      const img=this.getAttribute('data-img')
+      const fuel=this.getAttribute('data-fuel')
+      const gear=this.getAttribute('data-gear')
+      const cons=this.getAttribute('data-cons')
+      const price=this.getAttribute('data-price')
+      document.getElementById('modal-title').textContent=title
+      document.getElementById('modal-img').style.backgroundImage=`url('${img}')`
+      document.getElementById('modal-meta').textContent=`${fuel} • ${gear} • ${cons}`
+      document.getElementById('modal-price').textContent=price
+      document.getElementById('modal-desc').textContent=title + ' modeli, konforlu ve güvenli sürüş sunar. Tüm teslimatlarlarımızda araçlar detaylı bakım ve temizlikten geçirilir.'
+      document.getElementById('modal').style.display='flex'
+      document.getElementById('modal').setAttribute('aria-hidden','false')
+    })
+  })
+  function closeModal(){document.getElementById('modal').style.display='none';document.getElementById('modal').setAttribute('aria-hidden','true')}
+  // close modal on background click
+  document.getElementById('modal').addEventListener('click',function(e){if(e.target===this) closeModal()})
+</script>
+
+</body>
+</html>
