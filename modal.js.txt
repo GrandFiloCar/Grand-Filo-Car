@@ -1,0 +1,38 @@
+// modal.js
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
+  const modalMeta = document.getElementById('modal-meta');
+  const modalDesc = document.getElementById('modal-desc');
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      const name = card.dataset.name;
+      const img = card.dataset.img;
+      const fuel = card.dataset.fuel;
+      const gear = card.dataset.gear;
+      const cons = card.dataset.cons;
+      const price = card.dataset.price;
+
+      modalImg.style.backgroundImage = `url('${img}')`;
+      modalTitle.textContent = name;
+      modalMeta.textContent = `${fuel} • ${gear} • ${cons}`;
+      modalDesc.textContent = `${name} aracımız günlük ${price} fiyatla kiralanabilir. 7/24 vale teslimat ve kasko güvencesiyle.`;
+
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  // Kapatma butonu
+  window.closeModal = function() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  // Dışına tıklayınca kapat
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+});
